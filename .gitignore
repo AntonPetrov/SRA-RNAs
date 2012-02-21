@@ -18,4 +18,3 @@ application/cache/*
 *.m~
 pseudoknot_removal/*
 loops.csv
-data/
