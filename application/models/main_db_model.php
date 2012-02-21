@@ -107,6 +107,31 @@ class Main_db_model extends CI_Model {
                                      $this->beautify_edit_distance($jresult->median_min_edit_distance),
                                      $jresult->signature);
                 }
+
+                // add more results
+                $this->db->select()
+                         ->from('jar3d_results')
+                         ->where('job_id', $job_id)
+                         ->where('location', $location)
+                         ->where('median_min_edit_distance', 0)
+//                          ->or_where('median_percentile >', 95)
+                         ->where('result_id >', 3)
+                         ->order_by('result_id asc');
+                $query = $this->db->get();
+
+                foreach ($query->result() as $jresult) {
+                    $handle = str_replace(array('IL','HL'), 'Group', $jresult->group);
+                    $aa = "<input type='radio' class='exemplar' name='r'><a href='http://rna.bgsu.edu/research/anton/share/iljun6/{$handle}.html'>" . $jresult->group . "</a> (ranked $jresult->result_id)";
+                    $table[] = array($aa,
+                                     $jresult->mean_log_probability,
+                                     $jresult->median_log_probability,
+                                     $this->beautify_percentile($jresult->mean_percentile),
+                                     $this->beautify_percentile($jresult->median_percentile),
+                                     $this->beautify_edit_distance($jresult->mean_min_edit_distance),
+                                     $this->beautify_edit_distance($jresult->median_min_edit_distance),
+                                     $jresult->signature);
+                }
+
                 $tmpl = array( 'table_open'  => "<table class='condensed-table zebra-striped bordered-table sortable'>" );
                 $this->table->set_template($tmpl);
                 $this->table->set_heading($this->header);
