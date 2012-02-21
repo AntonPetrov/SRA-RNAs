@@ -12,7 +12,7 @@ from sqlalchemy.orm import sessionmaker
 
 import sqlalchemy.exc
 
-engine  = create_engine('mysql://root:bioinfo@localhost/ty1')
+engine  = create_engine('mysql://sra:F47490Q26BlUwxf@localhost/sra')
 
 Session = sessionmaker(bind=engine)
 session = Session()
