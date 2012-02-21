@@ -87,15 +87,15 @@ class Jar3dController():
         """
         """
         for loc in self.locations:
+            ofn = open(os.path.join(self.RUN_DIR, '%s.fasta' % loc.location), 'w')
             for loop in session.query(LoopLocations). \
                                 filter(LoopLocations.job_id==loc.job_id).\
                                 filter(LoopLocations.ss_id==loc.ss_id). \
                                 filter(LoopLocations.location==loc.location).all():
-                ofn = open(os.path.join(self.RUN_DIR, '%s.fasta' % loop.location), 'w')
                 for i in xrange(loop.count):
                     ofn.write('>%i times\n' % loop.count)
                     ofn.write('%s\n' % loop.seq)
-                ofn.close()
+            ofn.close()
 
     def run_jar3d(self):
         """
